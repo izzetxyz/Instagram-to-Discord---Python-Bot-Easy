@@ -29,7 +29,7 @@ Set environment variables in config:
 - Set AVATAR_URL to Discord Bot Photo. Example: (https://cdn.pixabay.com/photo/2022/04/01/20/37/moon-7105626_640.jpg)
 - Set USERNAMES to usernames accounts you want to monitor. Example: ['nike','adidas']
 - Set WEBHOOK to Discord account webhook url. To know how, just Google: "how to create webhook discord".
-- Set SLEEPTIME to the time in seconds in between each check for a new post. 600 is 10 minutes The time you recommend is 10 minutes. Using otherwise, you will exceed the Instagram limit and you will have to wait for a while.
+- Set SLEEPTIME to the time in seconds in between each check for a new post. 600 is 10 minutes The time you recommend is 10 minutes per account 2 account 20 minutes. Using otherwise, you will exceed the Instagram limit and you will have to wait for a while.
 
 If your config is okey just do it and run your bot.
 
