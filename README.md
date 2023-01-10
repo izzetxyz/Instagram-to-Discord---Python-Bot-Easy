@@ -17,6 +17,10 @@ This script executes 2 actions:
 
 - Python v3
 - Python module re, json, requests,config,time,numpy
+- pip install numpy or pip3 install numpy
+- pip install request or pip3 install request
+- pip install config or pip3 install config
+- pip install time or pip3 install time
 
 ## Usage:
 
@@ -25,6 +29,10 @@ Set environment variables in config:
 - Set USERNAMES to usernames accounts you want to monitor. Example: ['nike','adidas']
 - Set WEBHOOK to Discord account webhook url. To know how, just Google: "how to create webhook discord".
 - Set SLEEPTIME to the time in seconds in between each check for a new post. 600 is 10 minutes The time you recommend is 10 minutes. Using otherwise, you will exceed the Instagram limit and you will have to wait for a while.
+
+If your config is okey just do it and run your bot.
+
+- py instagramtodiscord.py or python instagramtodiscord.py or python3 instagramtodiscord.py
 
 
 ## Collaborations:
