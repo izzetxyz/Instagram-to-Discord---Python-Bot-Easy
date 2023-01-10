@@ -6,7 +6,7 @@ from datetime import datetime
 import time
 import config
 headers = {
-    "user-agent": "Instagram 219.0.0.12.117 Android",
+    "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 123.0.0.21.115 (iPhone11,8; iOS 14_0; en_US; en-US; scale=2.00; 828x1792; 165586599)",
     "content-type": "application/json",
     "cache-control": "private, no-cache, no-store, must-revalidate",
     "access-control-allow-origin": "https://www.instagram.com",
@@ -35,6 +35,7 @@ def discord_webhook(url,full_name,mediaimage,text):
     }]
     }
     result = rq.post(config.WEBHOOK, data=json.dumps(data), headers={"Content-Type": "application/json"})
+    
     try:
         result.raise_for_status()
     except rq.exceptions.HTTPError as err:
@@ -48,11 +49,8 @@ def First_check(usernames):
     for profile in usernames:
         try:
             url = f"https://i.instagram.com/api/v1/users/web_profile_info/?username={profile}"
-            print(url)
             html = rq.get(url=url,headers=headers)
-            print(html.text)
-            output = html.json()
-            
+            output = html.json()       
             full_name = output['data']['user']['full_name']
             mediaimage = output['data']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['display_url']
             text = output['data']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['edge_media_to_caption']['edges'][0]['node']['text']
