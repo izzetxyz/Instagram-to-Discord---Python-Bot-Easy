@@ -48,6 +48,7 @@ def First_check(usernames):
     posts = []
     for profile in usernames:
         try:
+            time.sleep(5)
             url = f"https://i.instagram.com/api/v1/users/web_profile_info/?username={profile}"
             html = rq.get(url=url,headers=headers)
             output = html.json()       
@@ -64,6 +65,7 @@ def Second_check(usernames,firstpost):
     second_posts = []
     for profile in usernames:
         try:
+            time.sleep(5)
             url = f"https://i.instagram.com/api/v1/users/web_profile_info/?username={profile}"
             html = rq.get(url=url,headers=headers)
             output = html.json()
