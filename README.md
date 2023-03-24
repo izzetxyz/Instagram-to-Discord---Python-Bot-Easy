@@ -23,17 +23,17 @@ This script executes 2 actions:
 ## Usage:
 
 1- Check https://developers.facebook.com/docs/instagram-basic-display-api/getting-started 
-then https://developers.facebook.com/docs/instagram-basic-display-api/guides/long-lived-access-tokens 
-(Don't forget to update your token every 60 days https://developers.facebook.com/docs/instagram-basic-display-api/guides/long-lived-access-tokens#refresh-a-long-lived-token)
+- then https://developers.facebook.com/docs/instagram-basic-display-api/guides/long-lived-access-tokens 
+- Don't forget to update your token every 60 days (https://developers.facebook.com/docs/instagram-basic-display-api/guides/long-lived-access-tokens#refresh-a-long-lived-token)
 
 2- Set the variables in config.py:
-    - Set USERNAME to Discord Bot Username
-    - Set WEBHOOK to Discord account webhook url. To know how, just Google: "how to create webhook discord".
-    - Set SLEEPTIME to the time in seconds in between each check for a new post.
-    - Set IGTOKEN Your Instagram Long-Lived Access Tokens https://developers.facebook.com/docs/instagram-basic-display-api/guides/long-lived-access-tokens?locale=en_US#get-a-long-lived-token
-    - Set IGUSER_ID Instagram User ID https://developers.facebook.com/docs/instagram-basic-display-api/getting-started#step-5--exchange-the-code-for-a-token
+- Set USERNAME to Discord Bot Username
+- Set WEBHOOK to Discord account webhook url. To know how, just Google: "how to create webhook discord".
+- Set SLEEPTIME to the time in seconds in between each check for a new post.
+- Set IGTOKEN Your Instagram Long-Lived Access Tokens https://developers.facebook.com/docs/instagram-basic-display-api/guides/long-lived-access-tokens?locale=en_US#get-a-long-lived-token
+- Set IGUSER_ID Instagram User ID https://developers.facebook.com/docs/instagram-basic-display-api/getting-started#step-5--exchange-the-code-for-a-token
 
 3- If your config is OK just do it and run your bot.
 
-    - py instagram-discord.py or python instagram-discord.py or python3 instagram-discord.py
+- py instagram-discord.py or python instagram-discord.py or python3 instagram-discord.py
 
