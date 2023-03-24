@@ -1,20 +1,14 @@
 import requests as rq
 import json
-import numpy as np
 import logging
 from datetime import datetime
 import time
 import config
-headers = {
-    "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 123.0.0.21.115 (iPhone11,8; iOS 14_0; en_US; en-US; scale=2.00; 828x1792; 165586599)",
-    "content-type": "application/json",
-    "cache-control": "private, no-cache, no-store, must-revalidate",
-    "access-control-allow-origin": "https://www.instagram.com",
-    "access-control-expose-headers": "X-IG-Set-WWW-Claim",
-    "alt-svc": '''h3=":443"; ma=86400'''
-}
 
-usernames = config.USERNAMES
+
+token = config.IGTOKEN
+user_id = config.IGUSER_ID
+
 
 def discord_webhook(url,full_name,mediaimage,text):
     '''
@@ -23,14 +17,13 @@ def discord_webhook(url,full_name,mediaimage,text):
        
     data = {
         "username": config.USERNAME,
-        "avatar_url": config.AVATAR_URL,
         "embeds": [{
             "title": full_name +' | Shared New Post!',
             "url": url,
-            "thumbnail": {"url": mediaimage},
+            "image": {"url": mediaimage},
             "description": '***'+text+'***',
-            "color": int(config.COLOUR),
-            "footer": {'text': 'made by izzy'},
+            "color": config.COLOUR,
+            "footer": {'text': 'made by KhalidM'},
             "timestamp": str(datetime.utcnow()),          
     }]
     }
@@ -44,56 +37,64 @@ def discord_webhook(url,full_name,mediaimage,text):
         print("Payload delivered successfully, code {}.".format(result.status_code))
         logging.info(msg="Payload delivered successfully, code {}.".format(result.status_code))
 
-def First_check(usernames):
+
+def First_check():
     posts = []
-    for profile in usernames:
-        try:
-            time.sleep(5)
-            url = f"https://i.instagram.com/api/v1/users/web_profile_info/?username={profile}"
-            html = rq.get(url=url,headers=headers)
-            output = html.json()       
-            full_name = output['data']['user']['full_name']
-            mediaimage = output['data']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['display_url']
-            text = output['data']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['edge_media_to_caption']['edges'][0]['node']['text']
-            shortcode = output['data']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['shortcode']
-            posts.append('https://www.instagram.com/p/'+shortcode+' :'+full_name+' :'+mediaimage+' :'+text)
-        except Exception as e:
-            print('Missing username or something.')
+    try:
+        time.sleep(5)
+        url = f"https://graph.instagram.com/me/media?fields={user_id},caption&access_token={token}"
+        html = rq.get(url=url)
+        output = html.json()       
+        full_name = "" #### Set The Full Name of The IG Account
+        mediaid = output['data'][0]['id']
+        text = output['data'][0]['caption']
+        url = f"https://graph.instagram.com/{mediaid}?fields=id,media_type,media_url,username,timestamp,permalink&access_token={token}"
+        html = rq.get(url=url)
+        output = html.json()   
+        mediaimage = output["media_url"]
+        shortcode = output['permalink']
+        posts.append(shortcode+' :'+full_name+' :'+mediaimage+' :'+text)
+    except Exception as e:
+        print('Missing username or something.')
     print('First Check Success!')
     return posts
-def Second_check(usernames,firstpost):
+
+
+def Second_check(firstpost):
     second_posts = []
-    for profile in usernames:
-        try:
-            time.sleep(5)
-            url = f"https://i.instagram.com/api/v1/users/web_profile_info/?username={profile}"
-            html = rq.get(url=url,headers=headers)
-            output = html.json()
-            full_name = output['data']['user']['full_name']
-            mediaimage = output['data']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['display_url']
-            text = output['data']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['edge_media_to_caption']['edges'][0]['node']['text']
-            shortcode = output['data']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['shortcode']
-            second_posts.append('https://www.instagram.com/p/'+shortcode+' :'+full_name+' :'+mediaimage+' :'+text)
-        except Exception as e:
-            print('Missing username or something.')
-            return firstpost
-    if(np.array_equal(firstpost,second_posts)==False):
+    try:
+        time.sleep(5)
+        url = f"https://graph.instagram.com/me/media?fields={user_id},caption&access_token={token}"
+        html = rq.get(url=url)
+        output = html.json()       
+        full_name = "" #### Set The Full Name of The IG Account
+        mediaid = output['data'][0]['id']
+        text = output['data'][0]['caption']
+        url = f"https://graph.instagram.com/{mediaid}?fields=id,media_type,media_url,username,timestamp,permalink&access_token={token}"
+        html = rq.get(url=url)
+        output = html.json()   
+        mediaimage = output["media_url"]
+        shortcode = output['permalink']
+        second_posts.append(shortcode+' :'+full_name+' :'+mediaimage+' :'+text)
+    except Exception as e:
+        print('Missing username or something.')
+        return firstpost
+    if firstpost[0].split()[0] != second_posts[0].split()[0]:
         filteredList = [second_posts for second_posts in second_posts if second_posts not in firstpost]
         i = 0
         for item in filteredList:
             discord_webhook(str(filteredList[i].split(' :')[0]),str(filteredList[i].split(' :')[1]),str(filteredList[i].split(' :')[2]),str(filteredList[i].split(' :')[3]))
             i += 1
         i = 0   
-        firstpost = First_check(usernames)
+        firstpost = First_check()
         return firstpost
     print(datetime.utcnow().strftime('%B %d %Y - %H:%M:%S')+'  |  No Changes in pages!')
     return firstpost
 
 
-firstpost = First_check(usernames)
+firstpost = First_check()
 
 
 while True:
     time.sleep(config.SLEEPTIME)
-    firstpost = Second_check(usernames,firstpost)
-
+    firstpost = Second_check(firstpost)
