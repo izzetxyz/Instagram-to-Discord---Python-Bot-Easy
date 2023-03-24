@@ -1,6 +1,6 @@
-USERNAME = 'BOT USERNAME'
-AVATAR_URL = 'BOT AVATAR URL'
-COLOUR = 16777215
-WEBHOOK = 'YOUR_DISCORD_WEBHOOK'
-USERNAMES = ['example']
-SLEEPTIME = 600 #600 is 10 minutes The time you recommend is 10 minutes per account 2 account 20 minutes 3 account 30 minutes... Using otherwise, you will exceed the Instagram limit and you will have to wait for a while.
+USERNAME = 'YOUR DISCORD WEBHOOK NAME'
+COLOUR = 863385 #Discord Embed Colour
+WEBHOOK = 'https://discord.com/api/webhooks/' #Your Discord Webhook URL
+SLEEPTIME = 60 # SleepTime between each check
+IGTOKEN = "" # Your Instagram Long-Lived Access Tokens https://developers.facebook.com/docs/instagram-basic-display-api/guides/long-lived-access-tokens?locale=en_US#get-a-long-lived-token
+IGUSER_ID = 17841401887260051 # Instagram User ID https://developers.facebook.com/docs/instagram-basic-display-api/getting-started#step-5--exchange-the-code-for-a-token
